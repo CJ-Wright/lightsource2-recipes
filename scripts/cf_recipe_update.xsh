@@ -16,7 +16,7 @@ for d in ['../recipes-dev', '../recipes-tag']:
         t = 'https://raw.githubusercontent.com/conda-forge/{}-feedstock/' \
             'master/recipe/meta.yaml'
         for b in a:
-            os.makedirs(b, exists_ok=True)
+            os.makedirs(b, exist_ok=True)
             with indir(b):
                 url = t.format(b)
                 request = requests.get(url)
