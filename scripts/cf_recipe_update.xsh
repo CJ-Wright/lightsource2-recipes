@@ -10,7 +10,7 @@ def indir(d):
     ![cd @(d)]
     yield
     ![cd @(old_d)]
-for d in ['recipes-dev', 'recipes-tag']:
+for d in ['../recipes-dev', '../recipes-tag']:
     with indir(d):
         a = g`*`
         t = 'https://raw.githubusercontent.com/conda-forge/{}-feedstock/' \
