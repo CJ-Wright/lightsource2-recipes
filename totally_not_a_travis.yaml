@@ -19,6 +19,7 @@ install:
 
 script:
   - set -e
+  - cd scripts
   # update all the things
   - xonda cf_recipe_udate.xsh
   # push the updated recipes to GH
