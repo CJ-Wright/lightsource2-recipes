@@ -1,20 +1,15 @@
-{% set name = "databroker" %}
-{% set version = "0.9.3" %}
-{% set sha256 = "71f015e012e1f99ffcf247f43e3faa29980990eb6977a0f9fccd177b9c167928" %}
-
 package:
-  name: {{ name|lower }}
-  version: {{ version }}
+  name: databroker
+  version: {{ environ.GIT_DESCRIBE_TAG[1:] }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://github.com/NSLS-II/{{ name }}/archive/v{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  git_url: https://github.com/NSLS-II/databroker
+  git_rev: master
 
 build:
-  noarch: python
-  number: 0
-  script: python setup.py install --single-version-externally-managed --record record.txt
+  number: 3
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
 
 requirements:
   build:
@@ -25,6 +20,7 @@ requirements:
     - boltons
     - cytoolz
     - doct
+    - glueviz
     - h5py
     - humanize
     - jsonschema
@@ -33,10 +29,12 @@ requirements:
     - numpy
     - pandas
     - pims
+    - pymongo
     - python
     - pytz
     - pyyaml
     - requests
+    - singledispatch [py27]
     - six
     - tifffile
     - tornado
@@ -44,22 +42,17 @@ requirements:
     - ujson
 
 test:
+  requires:
+    - nslsii_dev_configuration
   imports:
     - databroker
-    - databroker.core
-    - databroker.broker
 
 about:
   home: https://github.com/NSLS-II/databroker
-  license: BSD-3-Clause
-  license_family: BSD
-  license_file: LICENSE
-  summary: 'A unified interface to the various data sources at NSLS-II.'
-
-  description: 'A unified interface to the various data sources at NSLS-II.'
-  doc_url: http://nsls-ii.github.io/databroker/
-  dev_url: https://github.com/NSLS-II/databroker/
+  license: BSD
 
 extra:
   recipe-maintainers:
-    - CJ-Wright
+    - ericdill
+    - licode
+    - tacaswell

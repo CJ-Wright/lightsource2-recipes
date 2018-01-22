@@ -1,31 +1,26 @@
-{% set version = "1.0.5" %}
-
 package:
   name: doct
-  version: {{ version }}
+  version: {{ environ.GIT_DESCRIBE_TAG[1:] }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
 
 source:
-  url: http://github.com/NSLS-II/doct/archive/v{{ version }}.tar.gz
-  fn: doct-{{ version }}.tar.gz
-  sha256: f83b30e32feaf332f4c009582c63f772e9660040cdb7d6e5c3f9318811a8a5e0
+  git_url: https://github.com/NSLS-II/doct
+  git_rev: master
 
 build:
   number: 0
-  noarch: python
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
   build:
-    - humanize
-    - prettytable
+    - python
+    - setuptools
+    - six
+
+  run:
     - python
     - six
-    - setuptools
-  run:
     - humanize
     - prettytable
-    - python
-    - six 
 
 test:
   imports:
@@ -33,13 +28,10 @@ test:
 
 about:
   home: https://github.com/NSLS-II/document
-  license: BSD 3-Clause
-  summary: A read-only dottable dictionary
+  license: BSD
 
 extra:
   recipe-maintainers:
     - ericdill
-    - CJ-Wright
-    - tacaswell
     - licode
-    - danielballan
+    - tacaswell

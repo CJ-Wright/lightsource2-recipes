@@ -1,45 +1,39 @@
-{% set name = "ophyd" %}
-{% set version = "1.0.0" %}
-{% set sha256 = "74ebb49196067f86450142da1dc3732267d31e8e9b4d32125b673d8464ce38fb" %}
-
 package:
-  name: {{ name|lower }}
-  version: {{ version }}
+    name: ophyd
+    version: {{ environ.GIT_DESCRIBE_TAG[1:] }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
 
 source:
-  fn: ophyd-v{{ version }}.tar.gz
-  url: https://github.com/NSLS-II/ophyd/archive/v{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+    git_url: https://github.com/NSLS-II/ophyd.git
+    git_rev: master
 
 build:
   number: 0
-  script: python setup.py install --single-version-externally-managed --record record.txt
-  skip: True  # [py2k or win]
+  skip: True  # [py2k]
+  script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
   build:
     - python
     - setuptools
   run:
-    - python
     - networkx
     - numpy
     - pyepics
+    - python
 
 test:
+  # only need to import the subpackages
   imports:
     - ophyd
     - ophyd.utils
     - ophyd.areadetector
-    - ophyd.sim
 
 about:
   home: https://github.com/NSLS-II/ophyd
   license: BSD 3-Clause
-  license_family: BSD
-  license_file: LICENSE
-  summary: 'Ophyd - EPICS Client Abstractions'
 
 extra:
   recipe-maintainers:
-    - CJ-Wright
+    - ericdill
+    - licode
+    - tacaswell
