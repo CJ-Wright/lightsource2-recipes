@@ -1,6 +1,6 @@
 {% set name = "attrs" %}
-{% set version = "16.3.0" %}
-{% set sha256 = "80203177723e36f3bbe15aa8553da6e80d47bfe53647220ccaa9ad7a5e473ccc" %}
+{% set version = "17.4.0" %}
+{% set sha256 = "1c7960ccfd6a005cd9f7ba884e6316b5e430a3f1a6c37c5f87d8b43f83b54ec9" %}
 
 package:
   name: {{ name|lower }}
@@ -12,21 +12,24 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
-  script: python setup.py install --single-version-externally-managed --record record.txt
+  noarch: python
+  number: 0
+  script: python setup.py bdist_wheel --universal;python -m wheel install --force dist/*.whl
 
 requirements:
   build:
     - python
     - setuptools
+    - wheel
   run:
     - python
+
+test:
+  requires:
+    - hypothesis
     - zope
     - zope.interface
     - pympler
-    - hypothesis
-
-test:
   imports:
     - attr
 
@@ -53,3 +56,5 @@ extra:
   recipe-maintainers:
     - CJ-Wright
     - licode
+    - nicoddemus
+    - jochym

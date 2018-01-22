@@ -1,38 +1,50 @@
+{% set version = "0.0.7" %}
+
 package:
-  name: xray-vision
-  version: {{ environ.GIT_DESCRIBE_TAG[1:] }}.post{{ environ.GIT_DESCRIBE_NUMBER }}
+    name: xray-vision
+    version: {{ version }}
 
 source:
-  git_url: https://github.com/Nikea/xray-vision
-  git_rev: master
+    url: https://github.com/Nikea/xray-vision/archive/v{{ version }}.tar.gz
+    fn: xray-vision-v{{ version }}.tar.gz
+    sha256: 07317f259d8e55b1fc39959695d2216b4298ca402c89f210116dd08c7991cb5b
 
 build:
-  number: 0
-  script: python setup.py install --single-version-externally-managed --record=record.txt
+    noarch: python
+    number: 0
+    script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
-  build:
-    - python
-    - setuptools
-  run:
-    # icu is needed until https://github.com/conda-forge/staged-recipes/issues/907 is resolved
-    - icu  # [py34]
-    - numpy
-    - matplotlib
-    - pyqt
-    - python
-    - six
+    build:
+        - python
+        - setuptools
+    run:
+        - numpy
+        - matplotlib
+        - pyqt
+        - python
+        - six
 
 test:
-  imports:
-    - xray_vision
+    imports:
+        - xray_vision
+        - xray_vision.backend
+        - xray_vision.backend.mpl
+        - xray_vision.mask
+        - xray_vision.messenger
+        - xray_vision.messenger.mpl
+        - xray_vision.mpl_plotting
+        - xray_vision.qt_widgets
+        - xray_vision.utils
 
 about:
-  home: https://github.com/Nikea/xray-vision
-  license: 3-Clause BSD
+    home: https://github.com/Nikea/xray-vision
+    license: 3-Clause BSD
+    summary: Visualization widgets and plotting helpers targeted at X-Ray Sciences
 
 extra:
-  recipe-maintainers:
-    - ericdill
-    - licode
-    - tacaswell
+    recipe-maintainers:
+        - ericdill
+        - licode
+        - tacaswell
+        - CJ-Wright

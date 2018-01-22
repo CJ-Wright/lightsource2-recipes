@@ -29,3 +29,10 @@ about:
   license: MIT
   license_file: LICENCE
   summary: 'Python humanize utilities.'
+
+extra:
+  recipe-maintainers:
+    - ericdill
+    - licode
+    - tacaswell
+    - ocefpaf

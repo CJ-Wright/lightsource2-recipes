@@ -10,7 +10,8 @@ source:
     sha256: 5f2622aa4fa59b4e41434342780af64220f39c25a99db95967e915f4e624e465
 
 build:
-    number: 0
+    number: 1
+    noarch: python
     script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
@@ -26,10 +27,6 @@ requirements:
 test:
     imports:
         - slicerator
-    requires:
-        - nose
-        - six
-        - numpy
 
 about:
     home: http://github.com/soft-matter/slicerator

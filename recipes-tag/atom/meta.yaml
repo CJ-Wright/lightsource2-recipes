@@ -1,12 +1,12 @@
-{% set version = "0.4.0.dev" %}
-
+{% set version = "0.4.0" %}
 package:
   name: atom
   version: {{ version }}
 
 source:
-  git_url: https://github.com/MatthieuDartiailh/atom
-  git_rev: {{ version }}
+  url: https://github.com/nucleic/atom/archive/{{ version }}.tar.gz
+  fn: atom-{{ version }}.tar.gz
+  sha256: 0ad1c86c9d3cbca8489b386287ba2274591bff818a2944ffae8ed1af420e29ee
 
 build:
   number: 0
@@ -19,15 +19,23 @@ requirements:
 
   run:
     - python
+    - future
 
 test:
-  # Python imports
   imports:
     - atom
     - atom.datastructures
-    - tests
 
 about:
   home: https://github.com/nucleic/atom
-  license: Modified BSD
-  summary: 'Memory efficient Python objects'
+  license: BSD 3-Clause
+  summary: Memory efficient Python objects
+
+extra:
+  recipe-maintainers:
+    - blink1073
+    - ericdill
+    - licode
+    - MatthieuDartiailh
+    - sccolbert
+    - tacaswell

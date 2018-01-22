@@ -1,34 +1,37 @@
 {% set version = "0.0.13" %}
+{% set sha256 = "f6efd434c4b0aa0ccf0156286197d9f26287418c49ea40ab3a73e4c7eb1af545" %}
 
 package:
     name: scikit-beam
     version: {{ version }}
 
 source:
-    git_url: https://github.com/scikit-beam/scikit-beam
-    git_rev: v{{ version }}
+    url: https://github.com/scikit-beam/scikit-beam/archive/v{{ version }}.tar.gz
+    fn: scikit-beam-v{{ version }}.tar.gz
+    sha256: {{ sha256 }}
 
 build:
   number: 0
   script:
     - python setup.py build_ext -i
     - python setup.py install --single-version-externally-managed --record=record.txt
+  skip: True  # [win or osx] 
 
 requirements:
     build:
         - toolchain
         - python
         - setuptools
-        - numpy x.x
+        - numpy 1.11.*
         - six
         - cython
         - autoconf    # [osx]
     run:
         - python
-        - numpy x.x
+        - numpy >=1.11
         - scipy
         - six
-        - xraylib    # [not win]
+        - xraylib
         - scikit-image
         - lmfit 0.8.3
 
@@ -42,9 +45,8 @@ test:
         - skbeam.core.fitting
         - skbeam.core.fitting.base
         - skbeam.ext
-        # xraylib is not conda installable on windows yet  # [not win]
-        - skbeam.core.fitting    # [not win]
-        - skbeam.core.constants.xrf    # [not win]
+        - skbeam.core.fitting
+        - skbeam.core.constants.xrf
         # has linux native library imports  # [not win]
         - skbeam.ext.ctrans    # [not win]
     commands:
@@ -61,3 +63,10 @@ about:
     # Need to add LICENSE to the manifest
     # license_file: LICENSE
     license_family: BSD
+
+extra:
+    recipe-maintainers:
+        - ericdill
+        - licode
+        - tacaswell
+        - CJ-Wright

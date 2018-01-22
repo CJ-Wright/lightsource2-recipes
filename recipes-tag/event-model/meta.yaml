@@ -1,36 +1,40 @@
-{% set version = "1.3.0" %}
+{% set version = "1.4.0" %}
 
 package:
-  name: event-model
-  version: {{ version }}
+    name: event-model
+    version: {{ version }}
 
 source:
-  git_url: https://github.com/NSLS-II/event-model
-  git_rev: v{{ version }}
+    url: https://github.com/NSLS-II/event-model/archive/v{{ version }}.tar.gz
+    fn: event-model-v{{version}}.tar.gz
+    sha256: 9339e23854acb760b80fad35219c5770e52ff9d40b9253dec6ded4fb887dd5fd
 
 build:
-  number: 1
-  script: python setup.py install --single-version-externally-managed --record=record.txt
-  skip: True  # [py2k]
+    number: 0
+    script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
-  build:
-    - python
+    build:
+        - python
+        - setuptools
 
-  run:
-    - python
+    run:
+        - python
+        - enum34  # [py2k]
+        - setuptools
 
 test:
-  imports:
-    - event_model
+    imports:
+        - event_model
 
 about:
-  home: https://github.com/NSLS-II/event_model
-  license: BSD 3-Clause
+    home: https://github.com/NSLS-II/event-model
+    license: BSD 3-Clause
+    summary: data model for event-based data collection and analysis
 
 extra:
-  recipe-maintainers:
-    - ericdill
-    - licode
-    - tacaswell
-    - danielballan
+    recipe-maintainers:
+        - ericdill
+        - licode
+        - tacaswell
+        - CJ-Wright

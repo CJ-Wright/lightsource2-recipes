@@ -1,13 +1,16 @@
-{% set version = "16.3.1" %}
+{% set name = "boltons" %}
+{% set version = "17.1.0" %}
+{% set hash_type = "sha256" %}
+{% set hash = "8fb03b993f9a37b37d2192013306e5f77f82aafac2f5b0ea06b26888eef9935d" %}
 
 package:
-  name: boltons
-  version: '{{ version }}'
+  name: {{ name }}
+  version: {{ version }}
 
 source:
   fn: 'boltons-{{ version }}.tar.gz'
   url: https://github.com/mahmoud/boltons/archive/{{ version }}.tar.gz
-  sha256: 9e4e5a85fd3aa508b499e413cd0b30c8cf8e11b6bc9a44acf1f0c278f85af1f8
+  {{ hash_type }}: {{ hash }}
 
 build:
   number: 0
@@ -16,15 +19,18 @@ build:
 requirements:
   build:
     - python
+    - setuptools
   run:
     - python
 
-# test:
-#   requires:
-#     - pytest
-#   commands:
-#     - 'py.test --doctest-modules {{ environ.SRC_DIR }}/boltons {{ environ.SRC_DIR }}/tests'
-#
+test:
+  source_files:
+    - boltons
+    - tests
+  requires:
+    - pytest
+  commands:
+    - 'py.test --doctest-modules boltons tests'
 
 about:
   home: https://github.com/mahmoud/boltons
@@ -37,3 +43,4 @@ about:
 extra:
   recipe-maintainers:
     - kalefranz
+    - nicoddemus

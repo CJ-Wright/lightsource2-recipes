@@ -1,48 +1,48 @@
-{% set version = "0.4.0" %}
+{% set version = "0.5.0" %}
 
 package:
-  name: fabio
-  version: {{ version }}
+    name: fabio
+    version: {{ version }}
 
 source:
-  url: https://github.com/silx-kit/fabio/archive/v{{ version }}.tar.gz
-  fn: fabio-v{{ version }}.tar.gz
+    url: https://github.com/silx-kit/fabio/archive/v{{ version }}.tar.gz
+    fn: fabio-v{{ version }}.tar.gz
+    sha256: 597bbd3c551687e98d84fe89b9fa87eca2a726fbbed56e841168119efd95baf9
 
 build:
-  number: 1
-  script: python setup.py install --single-version-externally-managed --record=record.txt
+    number: 0
+    script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
-  build:
-    - cython
-    - python
-    - setuptools
-    - numpy x.x
+    build:
+        - python
+        - setuptools
+        - numpy 1.11.*
+        - cython
+        # could use opencl, but need the package on conda-forge first
+        # - opencl
 
-  run:
-    - h5py
-    - lxml
-    - numpy x.x
-    - pillow
-    - python
+    run:
+        - python
+        - numpy >=1.11
 
 test:
-  imports:
-    - fabio
-    - fabio.test
-    - fabio.third_party
-
-  #requires:
-  #  - coverage
-  #  - cython
-  #  - lxml
-  #  - numpy
-  #  - pytest
-
-  #commands:
-  #  - cd $SRC_DIR && coverage run run_tests.py
+    imports:
+        - fabio
+        - fabio.test
+        - fabio.third_party
 
 about:
-  home: http://fable.wiki.sourceforge.net/fabio
-  license: GNU General Public License v2 or later (GPLv2+)
-  summary: 'Image IO for fable'
+    home: https://github.com/silx-kit/fabio
+    license: GPL v3.0, GPL v2.0, MIT, GPL, LGPL v3.0, BSD 3-Clause, Apache 2.0
+    summary: I/O library for images produced by 2D X-ray detector
+    license_family: Other
+    license_file: copyright
+
+extra:
+    recipe-maintainers:
+        - ericdill
+        - licode
+        - tacaswell
+        - dmpelt
+        - CJ-Wright

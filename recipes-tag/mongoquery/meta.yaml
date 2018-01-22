@@ -10,6 +10,7 @@ source:
     sha256: d1e87f6038ea074273610b6258e5af7477de61c782f6424fc7ecf3416df3e645
 
 build:
+    noarch: python
     number: 0
     script: python setup.py install --single-version-externally-managed --record=record.txt
 
@@ -40,3 +41,4 @@ extra:
         - kapouille
         - licode
         - tacaswell
+        - CJ-Wright

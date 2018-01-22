@@ -1,13 +1,12 @@
-{% set version = "0.11.1" %}
+{% set version = "0.13.5" %}
 
 package:
   name: tifffile
   version: {{ version }}
 
 source:
-  fn: tifffile-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/t/tifffile/tifffile-{{ version }}.tar.gz
-  sha256: d9b0d8182f0d0c293673b0ec6ad3eeb507587c238df76e790dfdcabfd3dd92d9
+  sha256: bca0fc9eaf609a27ebd99d8466e05d5a6e79389957f17582b70643dbca65e3d8
 
 build:
     number: 0
@@ -17,15 +16,24 @@ requirements:
   build:
     - python
     - setuptools
-    - numpy x.x
+    - numpy 1.8.*  # [not (win and (py35 or py36))]
+    - numpy 1.9.*  # [win and py35]
+    - numpy 1.11.*  # [win and py36]
     - msinttypes  # [win and py<35]
   run:
     - python
-    - numpy x.x
+    - numpy >=1.8  # [not (win and (py35 or py36))]
+    - numpy >=1.9  # [win and py35]
+    - numpy >=1.11  # [win and py36]
+    - futures  # [py27]
+    - enum34  # [py27]
 
 test:
   imports:
     - tifffile
+  commands:
+    - conda inspect linkages -p $PREFIX tifffile  # [not win]
+    - conda inspect objects -p $PREFIX tifffile  # [osx]
 
 about:
   home: https://github.com/blink1073/tifffile
