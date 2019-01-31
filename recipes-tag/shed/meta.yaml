@@ -30,7 +30,7 @@ requirements:
     - bluesky
     - event-model
     - networkx >=2.0
-    - regolith
+    - xonsh
 
 test:
   imports:
