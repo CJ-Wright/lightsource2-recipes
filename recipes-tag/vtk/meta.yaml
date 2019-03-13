@@ -1,0 +1,137 @@
+{% set version = "8.2.0" %}
+{% set build_number = 0 %}
+
+{% set minor_version = ".".join(version.split(".")[:2]) %}
+
+{% set build_number = build_number + 200 %}   # [not VTK_WITH_OSMESA]
+
+package:
+  name: vtk
+  version: {{ version }}
+
+source:
+  url: http://www.vtk.org/files/release/{{ minor_version }}/VTK-{{ version }}.tar.gz
+  fn:  VTK-{{ version }}.tar.gz
+  sha256: 34c3dc775261be5e45a8049155f7228b6bd668106c72a3c435d95730d17d57bb
+  patches:
+    - 0001-Link-libpython-optionally-make-vtkPython-dep-compile.patch
+    - 0002-VTKGenerateExportHeader-Prefer-dumpversion-over-vers.patch
+
+build:
+  skip: True  # [win and py27]
+  number: {{ build_number }}
+  features:
+    - mesalib   # [VTK_WITH_OSMESA]
+
+requirements:
+  build:
+    - {{ compiler("cxx") }}
+    - cmake
+    - ninja
+    - {{ cdt('libxcb') }}  # [linux and not VTK_WITH_OSMESA]
+    - {{ cdt('libxau') }}  # [linux and not VTK_WITH_OSMESA]
+    - {{ cdt('libuuid') }}  # [linux and not VTK_WITH_OSMESA]
+    - {{ cdt('libxext') }}  # [linux and not VTK_WITH_OSMESA]
+    - {{ cdt('libxfixes') }}  # [linux and not VTK_WITH_OSMESA]
+    - {{ cdt('libxxf86vm') }}  # [linux and not VTK_WITH_OSMESA]
+    - {{ cdt('libxdamage') }}  # [linux and not VTK_WITH_OSMESA]
+    - {{ cdt('libselinux') }}  # [linux and not VTK_WITH_OSMESA]
+    - {{ cdt('libsm-devel') }}  # [linux and not VTK_WITH_OSMESA]
+    - {{ cdt('libice-devel') }}  # [linux and not VTK_WITH_OSMESA]
+    - {{ cdt('libx11-devel') }}  # [linux and not VTK_WITH_OSMESA]
+    - {{ cdt('mesa-libgl-devel') }}  # [linux and not VTK_WITH_OSMESA]
+    - {{ cdt('mesa-dri-drivers') }}  # [linux and not VTK_WITH_OSMESA]
+    - {{ cdt('xorg-x11-proto-devel') }}  # [linux and not VTK_WITH_OSMESA]
+
+  host:
+    - python
+    # VTK Third Party dependencies
+    - zlib
+    - freetype
+    - hdf5
+    - libxml2
+    - libpng
+    - jpeg
+    - libtiff
+    - jsoncpp
+    - expat
+    - tbb
+    - tbb-devel
+    - mesalib   # [VTK_WITH_OSMESA]
+    - libnetcdf
+    - lz4-c
+    - xorg-libxt  # [linux]
+
+  run:
+    - python
+    - future  # used in the generated python wrappers
+    # VTK Third Party dependencies
+    - zlib
+    - freetype
+    - hdf5
+    - libxml2
+    - libpng
+    - jpeg
+    - libtiff
+    - jsoncpp
+    - expat
+    - tbb
+    - mesalib   # [VTK_WITH_OSMESA]
+    - libnetcdf
+    - lz4-c
+    - xorg-libxt  # [linux]
+
+test:
+  imports:
+    - vtk
+    - vtk.vtkChartsCore
+    - vtk.vtkCommonCore
+    - vtk.vtkFiltersCore
+    - vtk.vtkFiltersGeneric
+    - vtk.vtkGeovisCore
+    - vtk.vtkFiltersHybrid
+    - vtk.vtkIOCore
+    - vtk.vtkImagingCore
+    - vtk.vtkInfovisCore
+    - vtk.vtkRenderingCore
+    - vtk.vtkViewsCore
+    - vtk.vtkRenderingVolume
+    - vtk.vtkInteractionWidgets
+    - vtkmodules
+    - vtkmodules.vtkChartsCore
+    - vtkmodules.vtkCommonCore
+    - vtkmodules.vtkFiltersCore
+    - vtkmodules.vtkFiltersGeneric
+    - vtkmodules.vtkGeovisCore
+    - vtkmodules.vtkFiltersHybrid
+    - vtkmodules.vtkIOCore
+    - vtkmodules.vtkImagingCore
+    - vtkmodules.vtkInfovisCore
+    - vtkmodules.vtkRenderingCore
+    - vtkmodules.vtkViewsCore
+    - vtkmodules.vtkRenderingVolume
+    - vtkmodules.vtkInteractionWidgets
+
+  requires:
+    - setuptools
+
+about:
+  home: http://www.vtk.org/
+  license: BSD 3-Clause
+  license_file: Copyright.txt
+  summary: >
+    The Visualization Toolkit (VTK) is an open-source, freely available software
+    system for 3D computer graphics, modeling, image processing, volume
+    rendering, scientific visualization, and information visualization.
+
+extra:
+  recipe-maintainers:
+    - ivoflipse
+    - Maxyme
+    - ccordoba12
+    - grlee77
+    - msarahan
+    - patricksnape
+    - dfroger
+    - tadeu
+    - marcelotrevisani
