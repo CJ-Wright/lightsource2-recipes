@@ -12,16 +12,15 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  noarch: python
   number: 0
   script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
   build:
-    - python >=3
+    - python
     - pip
   run:
-    - python >=3
+    - python
     - numpy
     - scipy
     - matplotlib
